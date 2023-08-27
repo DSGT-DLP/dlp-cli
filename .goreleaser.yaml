@@ -49,6 +49,9 @@ brews:
     repository:
       owner: DSGT-DLP
       name: dlp-cli
+    tap:
+      owner: DSGT-DLP
+      name: homebrew-dlp-cli
     install: |-
       bin.install "dlp-cli"
       bash_completion.install "completions/dlp-cli.bash" => "dlp-cli"
