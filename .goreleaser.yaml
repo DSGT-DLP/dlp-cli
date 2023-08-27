@@ -43,6 +43,10 @@ changelog:
       - "^test:"
 
 brews:
+  name: dlp-cli
+  repository:
+    owner: DSGT-DLP
+    name: dlp-cli
   - install: |-
       bin.install "dlp-cli"
       bash_completion.install "completions/dlp-cli.bash" => "dlp-cli"
