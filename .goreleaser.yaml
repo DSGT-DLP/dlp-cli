@@ -1,5 +1,7 @@
 # This is an example .goreleaser.yml file with some sensible defaults.
 # Make sure to check the documentation at https://goreleaser.com
+env_files:
+  github_token: ./.config/goreleaser/github_token
 before:
   hooks:
     # You may remove this if you don't use go modules.
@@ -43,11 +45,11 @@ changelog:
       - "^test:"
 
 brews:
-  name: dlp-cli
-  repository:
-    owner: DSGT-DLP
-    name: dlp-cli
-  - install: |-
+  - name: dlp-cli
+    repository:
+      owner: DSGT-DLP
+      name: dlp-cli
+    install: |-
       bin.install "dlp-cli"
       bash_completion.install "completions/dlp-cli.bash" => "dlp-cli"
       zsh_completion.install "completions/dlp-cli.zsh" => "_dlp-cli"
