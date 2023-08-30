@@ -62,15 +62,7 @@ winget:
     license: "mit"
     repository:
       owner: DSGT-DLP
-      name: winget-pkgs
-      branch: master
-      pull_request:
-        enabled: true
-        draft: true
-        base:
-          owner: microsoft
-          name: winget-pkgs
-          branch: master
+      name: dlp-cli
 # The lines beneath this are called `modelines`. See `:help modeline`
 # Feel free to remove those if you don't want/use them.
 # yaml-language-server: $schema=https://goreleaser.com/static/schema.json
