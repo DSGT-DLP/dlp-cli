@@ -62,7 +62,8 @@ winget:
     license: "mit"
     repository:
       owner: DSGT-DLP
-      name: dlp-cli
+      name: winget-pkgs
+      branch: master
       pull_request:
         enabled: true
         draft: true
