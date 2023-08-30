@@ -56,20 +56,20 @@ brews:
       fish_completion.install "completions/dlp-cli.fish"
 
 winget:
-  name: dlp-cli
-  publisher: DSGT-DLP
-  short_description: "CLI for Deep Learning Playground"
-  license: "mit"
-  repository:
-    owner: DSGT-DLP
-    name: dlp-cli
-    pull_request:
-      enabled: true
-      draft: true
-      base:
-        owner: microsoft
-        name: winget-pkgs
-        branch: master
+  - name: dlp-cli
+    publisher: DSGT-DLP
+    short_description: "CLI for Deep Learning Playground"
+    license: "mit"
+    repository:
+      owner: DSGT-DLP
+      name: dlp-cli
+      pull_request:
+        enabled: true
+        draft: true
+        base:
+          owner: microsoft
+          name: winget-pkgs
+          branch: master
 # The lines beneath this are called `modelines`. See `:help modeline`
 # Feel free to remove those if you don't want/use them.
 # yaml-language-server: $schema=https://goreleaser.com/static/schema.json
