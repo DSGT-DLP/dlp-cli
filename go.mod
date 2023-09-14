@@ -8,6 +8,11 @@ require (
 )
 
 require (
+	github.com/aws/aws-sdk-go v1.45.3 // indirect
+	github.com/jmespath/go-jmespath v0.4.0 // indirect
+)
+
+require (
 	github.com/creack/pty v1.1.18
 	github.com/fsnotify/fsnotify v1.6.0 // indirect
 	github.com/hashicorp/hcl v1.0.0 // indirect
