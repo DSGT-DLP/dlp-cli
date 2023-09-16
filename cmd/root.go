@@ -40,5 +40,6 @@ func Execute() {
 
 func init() {
 	RootCmd.PersistentFlags().String("project-dir", ".", "The directory of the project relative to the cli directory (cli-config.yaml project-dir overrides default value)")
+	RootCmd.PersistentFlags().BoolP("reference", "r", false, "Displays the equivalent shell commands for manual usage")
 	viper.BindPFlag("project-dir", RootCmd.PersistentFlags().Lookup("project-dir"))
 }

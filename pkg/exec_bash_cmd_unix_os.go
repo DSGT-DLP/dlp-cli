@@ -3,6 +3,7 @@
 package pkg
 
 import (
+	"bytes"
 	"fmt"
 	"io"
 	"log"
@@ -16,7 +17,7 @@ import (
 	"golang.org/x/term"
 )
 
-func ExecBashCmd(dir string, name string, arg ...string) {
+func ExecBashCmd(dir string, name string, arg ...string) string {
 	// Code below found in pty examples: https://github.com/creack/pty
 	bash_cmd := exec.Command(name, arg...)
 	bash_cmd.Dir = dir
@@ -52,5 +53,10 @@ func ExecBashCmd(dir string, name string, arg ...string) {
 	// Copy stdin to the pty and the pty to stdout.
 	// NOTE: The goroutine will keep reading until the next keystroke before returning.
 	go func() { io.Copy(ptmx, os.Stdin) }()
-	io.Copy(os.Stdout, ptmx)
+	var buffer bytes.Buffer
+	_, err = io.Copy(io.MultiWriter(os.Stdout, &buffer), ptmx)
+	if err != nil {
+		panic(err)
+	}
+	return buffer.String()
 }
