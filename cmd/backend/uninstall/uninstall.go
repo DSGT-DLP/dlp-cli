@@ -21,10 +21,10 @@ var InstallCmd = &cobra.Command{
 		env_name := cmd.Flag("env-name").Value.String()
 		if cmd.Flag("reference").Value.String() == "true" {
 			fmt.Println("Remove " + env_name + " conda environment:")
-			fmt.Println("\tconda remove -n " + env_name + " -y --all")
+			fmt.Println("\tmamba remove -n " + env_name + " --all")
 			return
 		}
-		pkg.ExecBashCmd(backend.BackendDir, "conda", "remove", "-n", env_name, "-y", "--all")
+		pkg.ExecBashCmd(backend.BackendDir, "mamba", "remove", "-n", env_name, "--all")
 	},
 }
 

@@ -24,26 +24,26 @@ var InstallCmd = &cobra.Command{
 		env_name := cmd.Flag("env-name").Value.String()
 		if cmd.Flag("reference").Value.String() == "true" {
 			fmt.Println("Check if " + env_name + " conda environment is created:")
-			fmt.Println("\tconda info --envs")
+			fmt.Println("\tmamba info --envs")
 			fmt.Println("If not created, create conda environment:")
-			fmt.Println("\tconda create --name " + env_name + " python=3.9")
+			fmt.Println("\tmamba create --name " + env_name + " python=3.9")
 			fmt.Println("Activate conda env if not already activated:")
-			fmt.Println("\tconda activate dlp")
-			fmt.Println("If poetry not installed in conda env, install poetry:")
-			fmt.Println("\tconda install -c conda-forge poetry")
+			fmt.Println("\tmamba activate dlp")
+			fmt.Println("Install packages from environment.yml:")
+			fmt.Println("\tmamba env update --file environment.yml --prune")
 			fmt.Println("Install python packages from pyproject.toml with poetry:")
 			fmt.Println("\tpoetry install")
 			return
 		}
-		res := pkg.ExecBashCmd(backend.BackendDir, "conda", "info", "--envs")
+		res := pkg.ExecBashCmd(backend.BackendDir, "mamba", "info", "--envs")
 		if strings.Contains(res, env_name) && force {
-			pkg.ExecBashCmd(backend.BackendDir, "conda", "remove", "-n", env_name, "-y", "--all")
+			pkg.ExecBashCmd(backend.BackendDir, "mamba", "remove", "-n", env_name, "-y", "--all")
 		}
 		if !strings.Contains(res, env_name) || force {
-			pkg.ExecBashCmd(backend.BackendDir, "conda", "create", "--name", env_name, "-y")
+			pkg.ExecBashCmd(backend.BackendDir, "mamba", "create", "--name", env_name, "-y")
 		}
-		pkg.ExecBashCmd(backend.BackendDir, "conda", "run", "--live-stream", "-n", env_name, "conda", "env", "update", "--file", "environment.yml", "--prune")
-		pkg.ExecBashCmd(backend.BackendDir, "conda", "run", "--live-stream", "-n", env_name, "poetry", "install")
+		pkg.ExecBashCmd(backend.BackendDir, "mamba", "run", "--live-stream", "-n", env_name, "mamba", "env", "update", "--file", "environment.yml", "--prune")
+		pkg.ExecBashCmd(backend.BackendDir, "mamba", "run", "--live-stream", "-n", env_name, "poetry", "install")
 	},
 }
 
