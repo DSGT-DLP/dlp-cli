@@ -19,14 +19,14 @@ var RemoveCmd = &cobra.Command{
 	Long:  `Remove package from conda environment from /training, defaults to removal via poetry unless otherwise specified`,
 	Args:  cobra.ExactArgs(1),
 	Run: func(cmd *cobra.Command, args []string) {
-		conda, _ := strconv.ParseBool(cmd.Flag("conda").Value.String())
-		conda_channel := cmd.Flag("conda-channel").Value.String()
+		mamba, _ := strconv.ParseBool(cmd.Flag("mamba").Value.String())
+		channel := cmd.Flag("channel").Value.String()
 		env_name := cmd.Flag("env-name").Value.String()
 		dev, _ := strconv.ParseBool(cmd.Flag("dev").Value.String())
-		if conda {
-			pkg.ExecBashCmd(backend.BackendDir, "mamba", "run", "--live-stream", "-n", env_name, "mamba", "remove", "-c", conda_channel, args[0])
+		if mamba {
+			pkg.ExecBashCmd(backend.BackendDir, "mamba", "run", "--live-stream", "-n", env_name, "mamba", "remove", "-c", channel, args[0])
 			pterm.DefaultSection.Println("IMPORTANT")
-			pterm.Info.Println("Remove the following line in dependencies section in environment.yml:\n" + "  - " + conda_channel + "::" + args[0])
+			pterm.Info.Println("Remove the following line in dependencies section in environment.yml:\n" + "  - " + channel + "::" + args[0])
 		} else if dev {
 			pkg.ExecBashCmd(backend.BackendDir, "mamba", "run", "--live-stream", "-n", env_name, "poetry", "remove", args[0], "--group", "dev")
 		} else {
@@ -38,7 +38,7 @@ var RemoveCmd = &cobra.Command{
 func init() {
 	backend.BackendCmd.AddCommand(RemoveCmd)
 	RemoveCmd.Flags().BoolP("dev", "d", false, "Remove package from dev dependencies")
-	RemoveCmd.Flags().BoolP("conda", "c", false, "Remove package via conda (used mainly if cross-platform compatibility is needed)")
-	RemoveCmd.Flags().StringP("conda-channel", "o", "conda-forge", "Specify conda channel to install from (only used if --conda flag is set)")
-	RemoveCmd.MarkFlagsMutuallyExclusive("dev", "conda")
+	RemoveCmd.Flags().BoolP("mamba", "m", false, "Remove package via conda (used mainly if cross-platform compatibility is needed)")
+	RemoveCmd.Flags().StringP("channel", "c", "conda-forge", "Specify conda channel to install from (only used if --mamba flag is set)")
+	RemoveCmd.MarkFlagsMutuallyExclusive("dev", "mamba")
 }

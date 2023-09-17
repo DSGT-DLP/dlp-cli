@@ -19,15 +19,15 @@ var AddCmd = &cobra.Command{
 	Long:  `Add package to conda environment from /training, defaults to installation via poetry unless otherwise specified`,
 	Args:  cobra.ExactArgs(1),
 	Run: func(cmd *cobra.Command, args []string) {
-		conda, _ := strconv.ParseBool(cmd.Flag("conda").Value.String())
-		conda_channel := cmd.Flag("conda-channel").Value.String()
+		mamba, _ := strconv.ParseBool(cmd.Flag("mamba").Value.String())
+		channel := cmd.Flag("channel").Value.String()
 		env_name := cmd.Flag("env-name").Value.String()
 		dev, _ := strconv.ParseBool(cmd.Flag("dev").Value.String())
-		if conda {
-			pkg.ExecBashCmd(backend.BackendDir, "mamba", "run", "--live-stream", "-n", env_name, "mamba", "install", "-c", conda_channel, args[0])
+		if mamba {
+			pkg.ExecBashCmd(backend.BackendDir, "mamba", "run", "--live-stream", "-n", env_name, "mamba", "install", "-c", channel, args[0])
 			pterm.DefaultSection.Println("IMPORTANT")
-			pterm.Info.Println("Add the following line in dependencies section in environment.yml:\n" + "  - " + conda_channel + "::" + args[0])
-			pterm.Info.Println("Add the following line at the bottom of the channels section in environment.yml above defaults:\n" + "  - " + conda_channel)
+			pterm.Info.Println("Add the following line in dependencies section in environment.yml:\n" + "  - " + channel + "::" + args[0])
+			pterm.Info.Println("Add the following line at the bottom of the channels section in environment.yml above defaults:\n" + "  - " + channel)
 			pterm.Info.Println("Anaconda docs also recommend reinstalling the conda environment to reduce conflicts between conda-forge and PyPI dependencies, so after adding the above line, run:\ndlp-cli backend install --force")
 		} else if dev {
 			pkg.ExecBashCmd(backend.BackendDir, "mamba", "run", "--live-stream", "-n", env_name, "poetry", "add", args[0], "--group", "dev")
@@ -40,7 +40,7 @@ var AddCmd = &cobra.Command{
 func init() {
 	backend.BackendCmd.AddCommand(AddCmd)
 	AddCmd.Flags().BoolP("dev", "d", false, "Add package as dev dependency")
-	AddCmd.Flags().BoolP("conda", "c", false, "Add package via conda (used mainly if cross-platform compatibility is needed)")
-	AddCmd.Flags().StringP("conda-channel", "o", "conda-forge", "Specify conda channel to install from (only used if --conda flag is set)")
-	AddCmd.MarkFlagsMutuallyExclusive("dev", "conda")
+	AddCmd.Flags().BoolP("mamba", "m", false, "Add package via mamba (used mainly if cross-platform compatibility is needed)")
+	AddCmd.Flags().StringP("channel", "c", "conda-forge", "Specify conda channel to install from (only used if --mamba flag is set)")
+	AddCmd.MarkFlagsMutuallyExclusive("dev", "mamba")
 }
