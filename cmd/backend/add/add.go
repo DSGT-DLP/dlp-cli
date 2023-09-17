@@ -7,7 +7,6 @@ import (
 	"strconv"
 
 	"github.com/DSGT-DLP/Deep-Learning-Playground/cli/cmd/backend"
-	"github.com/DSGT-DLP/Deep-Learning-Playground/cli/pkg"
 	"github.com/pterm/pterm"
 	"github.com/spf13/cobra"
 )
@@ -24,15 +23,15 @@ var AddCmd = &cobra.Command{
 		env_name := cmd.Flag("env-name").Value.String()
 		dev, _ := strconv.ParseBool(cmd.Flag("dev").Value.String())
 		if mamba {
-			pkg.ExecBashCmd(backend.BackendDir, "mamba", "run", "--live-stream", "-n", env_name, "mamba", "install", "-c", channel, args[0])
+			backend.ExecBashCmd("mamba", "run", "--live-stream", "-n", env_name, "mamba", "install", "-c", channel, args[0])
 			pterm.DefaultSection.Println("IMPORTANT")
 			pterm.Info.Println("Add the following line in dependencies section in environment.yml:\n" + "  - " + channel + "::" + args[0])
 			pterm.Info.Println("Add the following line at the bottom of the channels section in environment.yml above defaults:\n" + "  - " + channel)
 			pterm.Info.Println("Anaconda docs also recommend reinstalling the conda environment to reduce conflicts between conda-forge and PyPI dependencies, so after adding the above line, run:\ndlp-cli backend install --force")
 		} else if dev {
-			pkg.ExecBashCmd(backend.BackendDir, "mamba", "run", "--live-stream", "-n", env_name, "poetry", "add", args[0], "--group", "dev")
+			backend.ExecBashCmd("mamba", "run", "--live-stream", "-n", env_name, "poetry", "add", args[0], "--group", "dev")
 		} else {
-			pkg.ExecBashCmd(backend.BackendDir, "mamba", "run", "--live-stream", "-n", env_name, "poetry", "add", args[0])
+			backend.ExecBashCmd("mamba", "run", "--live-stream", "-n", env_name, "poetry", "add", args[0])
 		}
 	},
 }

@@ -1,12 +1,9 @@
-//go:build !windows
-
 package pkg
 
 import (
 	"bytes"
 	"fmt"
 	"io"
-	"log"
 	"os"
 	"os/exec"
 	"os/signal"
@@ -14,14 +11,33 @@ import (
 	"syscall"
 
 	"github.com/creack/pty"
+	"github.com/pterm/pterm"
 	"golang.org/x/term"
 )
 
-func ExecBashCmd(dir string, name string, arg ...string) string {
+func ExecBashCmd(runtime_os string, dir string, name string, arg ...string) string {
+	if runtime_os == "windows" {
+		// Use this if the pty one doesn't work
+		bash_cmd := exec.Command(name, arg...)
+		bash_cmd.Dir = dir
+		pterm.DefaultHeader.WithFullWidth().Println(strings.Join(bash_cmd.Args, " "))
+
+		var stdoutBuf, stderrBuf bytes.Buffer
+		bash_cmd.Stdout = io.MultiWriter(os.Stdout, &stdoutBuf)
+		bash_cmd.Stderr = io.MultiWriter(os.Stderr, &stderrBuf)
+		err := bash_cmd.Run()
+		if err != nil {
+			pterm.Error.Println("Error starting cmd: ", err)
+			return fmt.Sprint(err)
+		}
+
+		outStr, errStr := string(stdoutBuf.String()), string(stderrBuf.String())
+		return fmt.Sprint(outStr, errStr)
+	}
 	// Code below found in pty examples: https://github.com/creack/pty
 	bash_cmd := exec.Command(name, arg...)
 	bash_cmd.Dir = dir
-	fmt.Println(strings.Join(bash_cmd.Args, " "))
+	pterm.DefaultHeader.WithFullWidth().Println(strings.Join(bash_cmd.Args, " "))
 	ptmx, err := pty.Start(bash_cmd)
 	if err != nil {
 		panic(err)
@@ -35,7 +51,7 @@ func ExecBashCmd(dir string, name string, arg ...string) string {
 	go func() {
 		for range ch {
 			if err := pty.InheritSize(os.Stdin, ptmx); err != nil {
-				log.Printf("error resizing pty: %s", err)
+				pterm.Error.Printf("error resizing pty: %s", err)
 			}
 		}
 	}()

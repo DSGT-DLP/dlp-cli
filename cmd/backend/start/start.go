@@ -7,7 +7,6 @@ import (
 	"fmt"
 
 	"github.com/DSGT-DLP/Deep-Learning-Playground/cli/cmd/backend"
-	"github.com/DSGT-DLP/Deep-Learning-Playground/cli/pkg"
 	"github.com/spf13/cobra"
 )
 
@@ -19,7 +18,7 @@ var StartCmd = &cobra.Command{
 	Args:  cobra.ExactArgs(0),
 	Run: func(cmd *cobra.Command, args []string) {
 		env_name := cmd.Flag("env-name").Value.String()
-		pkg.ExecBashCmd(backend.BackendDir, "mamba", "run", "--live-stream", "-n", env_name, "poetry", "run", "python", "manage.py", "runserver", fmt.Sprintf("%v", cmd.Flag("port").Value))
+		backend.ExecBashCmd("mamba", "run", "--live-stream", "-n", env_name, "poetry", "run", "python", "manage.py", "runserver", fmt.Sprintf("%v", cmd.Flag("port").Value))
 	},
 }
 

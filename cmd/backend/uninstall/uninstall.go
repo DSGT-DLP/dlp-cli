@@ -7,7 +7,6 @@ import (
 	"fmt"
 
 	"github.com/DSGT-DLP/Deep-Learning-Playground/cli/cmd/backend"
-	"github.com/DSGT-DLP/Deep-Learning-Playground/cli/pkg"
 	"github.com/spf13/cobra"
 )
 
@@ -24,7 +23,7 @@ var InstallCmd = &cobra.Command{
 			fmt.Println("\tmamba remove -n " + env_name + " --all")
 			return
 		}
-		pkg.ExecBashCmd(backend.BackendDir, "mamba", "remove", "-n", env_name, "--all")
+		backend.ExecBashCmd("mamba", "remove", "-n", env_name, "--all")
 	},
 }
 

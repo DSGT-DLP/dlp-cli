@@ -9,7 +9,6 @@ import (
 	"strings"
 
 	"github.com/DSGT-DLP/Deep-Learning-Playground/cli/cmd/backend"
-	"github.com/DSGT-DLP/Deep-Learning-Playground/cli/pkg"
 	"github.com/spf13/cobra"
 )
 
@@ -35,15 +34,15 @@ var InstallCmd = &cobra.Command{
 			fmt.Println("\tpoetry install")
 			return
 		}
-		res := pkg.ExecBashCmd(backend.BackendDir, "mamba", "info", "--envs")
+		res := backend.ExecBashCmd("mamba", "info", "--envs")
 		if strings.Contains(res, env_name) && force {
-			pkg.ExecBashCmd(backend.BackendDir, "mamba", "remove", "-n", env_name, "-y", "--all")
+			backend.ExecBashCmd("mamba", "remove", "-n", env_name, "-y", "--all")
 		}
 		if !strings.Contains(res, env_name) || force {
-			pkg.ExecBashCmd(backend.BackendDir, "mamba", "create", "--name", env_name, "-y")
+			backend.ExecBashCmd("mamba", "create", "--name", env_name, "-y")
 		}
-		pkg.ExecBashCmd(backend.BackendDir, "mamba", "run", "--live-stream", "-n", env_name, "mamba", "env", "update", "--file", "environment.yml", "--prune")
-		pkg.ExecBashCmd(backend.BackendDir, "mamba", "run", "--live-stream", "-n", env_name, "poetry", "install")
+		backend.ExecBashCmd("mamba", "run", "--live-stream", "-n", env_name, "mamba", "env", "update", "--file", "environment.yml", "--prune")
+		backend.ExecBashCmd("mamba", "run", "--live-stream", "-n", env_name, "poetry", "install")
 	},
 }
 

@@ -7,7 +7,6 @@ import (
 	"strconv"
 
 	"github.com/DSGT-DLP/Deep-Learning-Playground/cli/cmd/backend"
-	"github.com/DSGT-DLP/Deep-Learning-Playground/cli/pkg"
 	"github.com/pterm/pterm"
 	"github.com/spf13/cobra"
 )
@@ -24,13 +23,13 @@ var RemoveCmd = &cobra.Command{
 		env_name := cmd.Flag("env-name").Value.String()
 		dev, _ := strconv.ParseBool(cmd.Flag("dev").Value.String())
 		if mamba {
-			pkg.ExecBashCmd(backend.BackendDir, "mamba", "run", "--live-stream", "-n", env_name, "mamba", "remove", "-c", channel, args[0])
+			backend.ExecBashCmd("mamba", "run", "--live-stream", "-n", env_name, "mamba", "remove", "-c", channel, args[0])
 			pterm.DefaultSection.Println("IMPORTANT")
 			pterm.Info.Println("Remove the following line in dependencies section in environment.yml:\n" + "  - " + channel + "::" + args[0])
 		} else if dev {
-			pkg.ExecBashCmd(backend.BackendDir, "mamba", "run", "--live-stream", "-n", env_name, "poetry", "remove", args[0], "--group", "dev")
+			backend.ExecBashCmd("mamba", "run", "--live-stream", "-n", env_name, "poetry", "remove", args[0], "--group", "dev")
 		} else {
-			pkg.ExecBashCmd(backend.BackendDir, "mamba", "run", "--live-stream", "-n", env_name, "poetry", "remove", args[0])
+			backend.ExecBashCmd("mamba", "run", "--live-stream", "-n", env_name, "poetry", "remove", args[0])
 		}
 	},
 }
