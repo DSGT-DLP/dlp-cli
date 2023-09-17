@@ -16,18 +16,17 @@ import (
 // InstallCmd represents the backend install command
 var InstallCmd = &cobra.Command{
 	Use:   "install",
-	Short: "Installs training backend packages from pyproject.toml",
-	Long:  `Installs training backend packages from pyproject.toml from /training in .venv`,
+	Short: "Installs training backend packages from pyproject.toml using poetry and environment.yml using conda in a conda environment for dlp, creates conda environment if it doesn't exist",
+	Long:  "Installs training backend packages from pyproject.toml using poetry and environment.yml using conda in a conda environment for dlp, creates conda environment if it doesn't exist",
 	Args:  cobra.ExactArgs(0),
 	Run: func(cmd *cobra.Command, args []string) {
 		force, _ := strconv.ParseBool(cmd.Flag("force").Value.String())
-		name := cmd.Flag("name").Value.String()
-		py_version := cmd.Flag("python-version").Value.String()
+		env_name := cmd.Flag("env-name").Value.String()
 		if cmd.Flag("reference").Value.String() == "true" {
-			fmt.Println("Check if " + name + " conda environment is created:")
+			fmt.Println("Check if " + env_name + " conda environment is created:")
 			fmt.Println("\tconda info --envs")
 			fmt.Println("If not created, create conda environment:")
-			fmt.Println("\tconda create --name " + name + " python=3.9")
+			fmt.Println("\tconda create --name " + env_name + " python=3.9")
 			fmt.Println("Activate conda env if not already activated:")
 			fmt.Println("\tconda activate dlp")
 			fmt.Println("If poetry not installed in conda env, install poetry:")
@@ -37,27 +36,18 @@ var InstallCmd = &cobra.Command{
 			return
 		}
 		res := pkg.ExecBashCmd(backend.BackendDir, "conda", "info", "--envs")
-		activated := strings.Contains(strings.ReplaceAll(res, " ", ""), name+"*")
-		if strings.Contains(res, name) && force {
-			pkg.ExecBashCmd(backend.BackendDir, "conda", "remove", "-n", name, "-y", "--all")
+		if strings.Contains(res, env_name) && force {
+			pkg.ExecBashCmd(backend.BackendDir, "conda", "remove", "-n", env_name, "-y", "--all")
 		}
-		if !strings.Contains(res, name) || force {
-			pkg.ExecBashCmd(backend.BackendDir, "conda", "create", "--name", name, "-y", "python="+py_version)
+		if !strings.Contains(res, env_name) || force {
+			pkg.ExecBashCmd(backend.BackendDir, "conda", "create", "--name", env_name, "-y")
 		}
-		cmd.Println(activated)
-		pkg.ExecBashCmd(backend.BackendDir, "conda", "run", "-n", name, "conda", "install", "-c", "conda-forge", "poetry")
-		pkg.ExecBashCmd(backend.BackendDir, "conda", "run", "-n", name, "poetry", "install")
-		//pkg.ExecBashCmd(backend.BackendDir, "bash", "-c", "eval \"$(conda shell.bash hook)\" && conda activate "+name+" && poetry install")
-		/*
-			pkg.ExecBashCmd(backend.BackendDir, "conda", "create", "--name", name, "--file", "requirements.txt")
-			pkg.ExecBashCmd(backend.BackendDir, "pyenv", "local", "3.9")
-			pkg.ExecBashCmd(backend.BackendDir, "poetry", "install")*/
+		pkg.ExecBashCmd(backend.BackendDir, "conda", "run", "--live-stream", "-n", env_name, "conda", "env", "update", "--file", "environment.yml", "--prune")
+		pkg.ExecBashCmd(backend.BackendDir, "conda", "run", "--live-stream", "-n", env_name, "poetry", "install")
 	},
 }
 
 func init() {
 	backend.BackendCmd.AddCommand(InstallCmd)
 	InstallCmd.Flags().BoolP("force", "f", false, "Force a reinstall of backend packages")
-	InstallCmd.Flags().String("name", "dlp", "Name of the conda environment you want to create")
-	InstallCmd.Flags().String("python-version", "3.9", "Python version to specify when creating the conda environment")
 }
