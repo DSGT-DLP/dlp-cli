@@ -9,7 +9,7 @@ import (
     "strings"
     "fmt"
     "github.com/spf13/cobra"
-    "github.com/DSGT-DLP/Deep-Learning-Playground/cli/cmd/backend"
+    "github.com/DSGT-DLP/Deep-Learning-Playground/cli/cmd/serverless" // For frontend/
 )
 
 var sstVariables string // Variables related to sst
@@ -64,5 +64,5 @@ func init() {
     buildServerlessEnvCmd.Flags().StringVar(&sstVariables, "sst", "", "Variables related to serverless stack (sst)")
     buildServerlessEnvCmd.Flags().StringVar(&devEndpoints, "dev-endpoints", "", "Development endpoints for serverless")
     buildServerlessEnvCmd.Flags().StringVar(&bucketNameServerless, "bucket", "", "Name of the serverless bucket")
-    backend.BackendCmd.AddCommand(buildServerlessEnvCmd)
+    serverless.ServerlessCmd.AddCommand(buildServerlessEnvCmd) 
 }

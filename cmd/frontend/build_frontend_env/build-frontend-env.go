@@ -13,11 +13,11 @@ import (
     "github.com/aws/aws-sdk-go/aws/session"
     "github.com/aws/aws-sdk-go/service/secretsmanager"
     "github.com/spf13/cobra"
-    "github.com/DSGT-DLP/Deep-Learning-Playground/cli/cmd/backend"
+    "github.com/DSGT-DLP/Deep-Learning-Playground/cli/cmd/frontend" // For frontend/
 )
 
-var secretName string // Name of the secret in AWS Secrets Manager. 
-var bucketName string // Name of the bucket (Assuming one bucket here) 
+var secretName string // Name of the secret in AWS Secrets Manager.
+var bucketName string // Name of the bucket (Assuming one bucket here).
 
 var buildFrontendEnvCmd = &cobra.Command{
     Use:   "build-frontend-env",
@@ -77,5 +77,5 @@ func writeToEnvFile(paramName string, paramValue string, path string) error {
 func init() {
     buildFrontendEnvCmd.Flags().StringVar(&secretName, "secret", "", "Name of the secret in AWS Secrets Manager")
     buildFrontendEnvCmd.Flags().StringVar(&bucketName, "bucket", "", "Name of the bucket")
-    backend.BackendCmd.AddCommand(buildFrontendEnvCmd)
+    frontend.FrontendCmd.AddCommand(buildFrontendEnvCmd)
 }

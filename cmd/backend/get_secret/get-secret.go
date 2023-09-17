@@ -1,17 +1,17 @@
 package get_secret
 
 /*
-dlp-cli get-secret --name "YourSecretName"
+go run main.go backend get-secret --name "YourSecretName"
 */
-
 
 import (
 	"fmt"
-	"github.com/spf13/cobra"
+
 	"github.com/DSGT-DLP/Deep-Learning-Playground/cli/cmd/backend"
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/aws/session"
 	"github.com/aws/aws-sdk-go/service/secretsmanager"
+	"github.com/spf13/cobra"
 )
 
 var secretName string
@@ -45,7 +45,7 @@ var getSecretCmd = &cobra.Command{
 			return
 		}
 
-		fmt.Printf("Secret [%s]: %s\n", secretName, *result.SecretString)
+		fmt.Printf("Secret [%s] successfully received: %s\n", secretName, *result.SecretString) //this validates that the secret was retrieved
 	},
 }
 

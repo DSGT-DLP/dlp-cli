@@ -31,9 +31,9 @@ import (
 	_ "github.com/DSGT-DLP/Deep-Learning-Playground/cli/cmd/backend/get_secret"
 	_ "github.com/DSGT-DLP/Deep-Learning-Playground/cli/cmd/backend/update_param"
 	_ "github.com/DSGT-DLP/Deep-Learning-Playground/cli/cmd/backend/remove_param"
-	_ "github.com/DSGT-DLP/Deep-Learning-Playground/cli/cmd/backend/build_frontend_env"
+	_ "github.com/DSGT-DLP/Deep-Learning-Playground/cli/cmd/frontend/build_frontend_env"
 	_ "github.com/DSGT-DLP/Deep-Learning-Playground/cli/cmd/backend/build_training_env"
-	_ "github.com/DSGT-DLP/Deep-Learning-Playground/cli/cmd/backend/build_serverless_env"
+	_ "github.com/DSGT-DLP/Deep-Learning-Playground/cli/cmd/serverless/build_serverless_env"
 )
 
 func main() {

@@ -1,7 +1,7 @@
 package add_param
 
 /*
-$ dlp-cli add-param --name "YourParameterName" --value "YourParameterValue" --type "String"
+$ go run main.go backend add-param --name "YourParameterName" --value "YourParameterValue" --type "String"
 */
 
 import (
@@ -19,6 +19,10 @@ var (
     paramType  string
 )
 
+var (
+    awsRegion = "us-west-2"
+)
+
 var addParamCmd = &cobra.Command{
     Use:   "add-param",
     Short: "Add a new param to AWS Parameter Store",
@@ -28,7 +32,12 @@ var addParamCmd = &cobra.Command{
             return
         }
 
-        svc := ssm.New(session.New())
+        // Create an AWS session with the specified region
+        sess := session.Must(session.NewSession(&aws.Config{
+            Region: aws.String(awsRegion),
+        }))
+
+        svc := ssm.New(sess)
         input := &ssm.PutParameterInput{
             Name:  aws.String(paramName),
             Value: aws.String(paramValue),

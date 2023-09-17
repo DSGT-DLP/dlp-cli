@@ -1,6 +1,10 @@
 
 package pull_config
 
+/*
+$ go run main.go backend pull-config
+*/
+
 import (
 	"os"
 	"strings"
