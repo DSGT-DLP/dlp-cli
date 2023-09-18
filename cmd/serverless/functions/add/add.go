@@ -5,7 +5,6 @@ package add
 
 import (
 	"github.com/DSGT-DLP/Deep-Learning-Playground/cli/cmd/serverless/functions"
-	"github.com/DSGT-DLP/Deep-Learning-Playground/cli/pkg"
 	"github.com/spf13/cobra"
 )
 
@@ -20,7 +19,7 @@ var AddCmd = &cobra.Command{
 		if cmd.Flag("dev").Value.String() == "true" {
 			bash_args = append(bash_args, "--dev")
 		}
-		pkg.ExecBashCmd(functions.FunctionsDir, "yarn", bash_args...)
+		functions.ExecBashCmd("yarn", bash_args...)
 	},
 }
 

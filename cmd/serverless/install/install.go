@@ -5,7 +5,6 @@ package install
 
 import (
 	"github.com/DSGT-DLP/Deep-Learning-Playground/cli/cmd/serverless"
-	"github.com/DSGT-DLP/Deep-Learning-Playground/cli/pkg"
 	"github.com/spf13/cobra"
 )
 
@@ -20,7 +19,7 @@ var InstallCmd = &cobra.Command{
 		if cmd.Flag("force").Value.String() == "true" {
 			bash_args = append(bash_args, "--force")
 		}
-		pkg.ExecBashCmd(serverless.ServerlessDir, "yarn", bash_args...)
+		serverless.ExecBashCmd("yarn", bash_args...)
 	},
 }
 
