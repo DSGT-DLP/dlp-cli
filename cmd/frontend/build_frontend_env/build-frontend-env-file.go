@@ -1,7 +1,7 @@
 package build_frontend_env
 
 /*
-$ dlp-cli build-frontend-env --secret "YourSecretName" --bucket "YourBucketName"
+$ dlp-cli build-frontend-env-file --secret "YourSecretName" --bucket "YourBucketName"
 */
 
 import (
@@ -20,7 +20,7 @@ var secretName string // Name of the secret in AWS Secrets Manager.
 var bucketName string // Name of the bucket (Assuming one bucket here).
 
 var buildFrontendEnvCmd = &cobra.Command{
-    Use:   "build-frontend-env",
+    Use:   "build-frontend-env-file",
     Short: "Build .env file for frontend/",
     Run: func(cmd *cobra.Command, args []string) {
         sess, err := session.NewSession(&aws.Config{Region: aws.String("us-west-2")})

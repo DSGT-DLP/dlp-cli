@@ -1,7 +1,7 @@
 package build_training_env
 
 /*
-$ dlp-cli build-training-env --secret "YourTrainingSecretName" --bucket "YourTrainingBucketName"
+$ dlp-cli build-training-env-file --secret "YourTrainingSecretName" --bucket "YourTrainingBucketName"
 */
 
 import (
@@ -20,7 +20,7 @@ var secretNameTraining string // Name of the secret in AWS Secrets Manager
 var bucketNameTraining string // Name of the bucket for training
 
 var buildTrainingEnvCmd = &cobra.Command{
-    Use:   "build-training-env",
+    Use:   "build-training-env-file",
     Short: "Build .env file for training/",
     Run: func(cmd *cobra.Command, args []string) {
         sess, err := session.NewSession(&aws.Config{Region: aws.String("us-west-2")})

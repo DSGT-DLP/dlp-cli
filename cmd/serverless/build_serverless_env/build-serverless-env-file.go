@@ -1,7 +1,7 @@
 package build_serverless_env
 
 /*
-$ dlp-cli build-serverless-env --sst "YourSSTVariables" --dev-endpoints "YourDevEndpoints" --bucket "YourServerlessBucketName"
+$ dlp-cli build-serverless-env-file --sst "YourSSTVariables" --dev-endpoints "YourDevEndpoints" --bucket "YourServerlessBucketName"
 */
 
 import (
@@ -18,7 +18,7 @@ var devEndpoints string         // Development endpoints
 var bucketNameServerless string // Name of the bucket for serverless
 
 var buildServerlessEnvCmd = &cobra.Command{
-	Use:   "build-serverless-env",
+	Use:   "build-serverless-env-file",
 	Short: "Build .env file for serverless/",
 	Run: func(cmd *cobra.Command, args []string) {
 		path := "./serverless"
