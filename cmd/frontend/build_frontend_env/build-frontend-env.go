@@ -1,7 +1,7 @@
 package build_frontend_env
 
 /*
-$ your_cli_tool build-frontend-env --secret "YourSecretName" --bucket "YourBucketName"
+$ dlp-cli build-frontend-env --secret "YourSecretName" --bucket "YourBucketName"
 */
 
 import (

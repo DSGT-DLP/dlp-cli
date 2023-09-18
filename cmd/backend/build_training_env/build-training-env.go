@@ -1,7 +1,7 @@
 package build_training_env
 
 /*
-$ your_cli_tool build-training-env --secret "YourTrainingSecretName" --bucket "YourTrainingBucketName"
+$ dlp-cli build-training-env --secret "YourTrainingSecretName" --bucket "YourTrainingBucketName"
 */
 
 import (

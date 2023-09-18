@@ -1,7 +1,7 @@
 package update_param
 
 /*
-$ go run main.go backend update-param --name "ExistingParameterName" --value "NewParameterValue" --type "String" --overwrite true
+$ dlp-cli backend update-param --name "ExistingParameterName" --value "NewParameterValue" --type "String" --overwrite true
 */
 
 import (

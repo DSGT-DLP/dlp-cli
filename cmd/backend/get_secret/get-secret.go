@@ -1,7 +1,7 @@
 package get_secret
 
 /*
-go run main.go backend get-secret --name "YourSecretName"
+dlp-cli backend get-secret --name "YourSecretName"
 */
 
 import (

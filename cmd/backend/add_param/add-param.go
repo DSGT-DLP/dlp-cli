@@ -1,7 +1,7 @@
 package add_param
 
 /*
-$ go run main.go backend add-param --name "YourParameterName" --value "YourParameterValue" --type "String"
+$ dlp-cli backend add-param --name "YourParameterName" --value "YourParameterValue" --type "String"
 */
 
 import (
@@ -23,12 +23,23 @@ var (
     awsRegion = "us-west-2"
 )
 
+var validParamTypes = map[string]bool{
+    "String":       true,
+    "StringList":   true,
+    "SecureString": true,
+}
+
 var addParamCmd = &cobra.Command{
     Use:   "add-param",
     Short: "Add a new param to AWS Parameter Store",
     Run: func(cmd *cobra.Command, args []string) {
         if paramName == "" || paramValue == "" || paramType == "" {
             fmt.Println("Error: You must provide a name, value, and type for the parameter.")
+            return
+        }
+
+        if !isValidParamType(paramType) {
+            fmt.Println("Error: Invalid parameter type. Accepted types are: String, StringList, SecureString.")
             return
         }
 
@@ -52,6 +63,11 @@ var addParamCmd = &cobra.Command{
 
         fmt.Println("Parameter added successfully.")
     },
+}
+
+func isValidParamType(typ string) bool {
+    _, exists := validParamTypes[typ]
+    return exists
 }
 
 func init() {

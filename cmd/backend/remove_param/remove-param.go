@@ -1,7 +1,7 @@
 package remove_param
 
 /*
-$ dlp-cli remove-param --name "YourParameterName"
+$ dlp-cli backend remove-param --name "YourParameterName"
 */
 
 import (
