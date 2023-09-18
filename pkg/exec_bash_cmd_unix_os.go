@@ -1,8 +1,9 @@
+//go:build !windows
+
 package pkg
 
 import (
 	"bytes"
-	"fmt"
 	"io"
 	"os"
 	"os/exec"
@@ -17,22 +18,7 @@ import (
 
 func ExecBashCmd(runtime_os string, dir string, name string, arg ...string) string {
 	if runtime_os == "windows" {
-		// Use this if the pty one doesn't work
-		bash_cmd := exec.Command(name, arg...)
-		bash_cmd.Dir = dir
-		pterm.DefaultHeader.WithFullWidth().Println(strings.Join(bash_cmd.Args, " "))
-
-		var stdoutBuf, stderrBuf bytes.Buffer
-		bash_cmd.Stdout = io.MultiWriter(os.Stdout, &stdoutBuf)
-		bash_cmd.Stderr = io.MultiWriter(os.Stderr, &stderrBuf)
-		err := bash_cmd.Run()
-		if err != nil {
-			pterm.Error.Println("Error starting cmd: ", err)
-			return fmt.Sprint(err)
-		}
-
-		outStr, errStr := string(stdoutBuf.String()), string(stderrBuf.String())
-		return fmt.Sprint(outStr, errStr)
+		execBashCmdAny(dir, name, arg...)
 	}
 	// Code below found in pty examples: https://github.com/creack/pty
 	bash_cmd := exec.Command(name, arg...)
