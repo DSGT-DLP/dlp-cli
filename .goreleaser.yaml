@@ -63,6 +63,13 @@ winget:
     repository:
       owner: DSGT-DLP
       name: dlp-cli
+      branch: "winget-manifest--{{.Version}}"
+      pull_request:
+        enabled: true
+        base:
+          owner: DSGT-DLP
+          name: dlp-cli
+          branch: main
 # The lines beneath this are called `modelines`. See `:help modeline`
 # Feel free to remove those if you don't want/use them.
 # yaml-language-server: $schema=https://goreleaser.com/static/schema.json
