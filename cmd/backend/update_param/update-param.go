@@ -21,10 +21,6 @@ var (
 	overwrite  bool
 )
 
-var (
-	awsRegion = "us-west-2"
-)
-
 var updateParamCmd = &cobra.Command{
 	Use:   "update-param",
 	Short: "Update an existing parameter value in AWS Parameter Store",
@@ -36,7 +32,7 @@ var updateParamCmd = &cobra.Command{
 
 		// Create an AWS session with the specified region
 		sess := session.Must(session.NewSession(&aws.Config{
-			Region: aws.String(awsRegion),
+			Region: aws.String(backend.AwsRegion),
 		}))
 
 		svc := ssm.New(sess)

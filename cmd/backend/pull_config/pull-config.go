@@ -26,7 +26,7 @@ var pullConfigCmd = &cobra.Command{
     Args:  cobra.ExactArgs(0),
 	Run: func(cmd *cobra.Command, args []string) {
 		sess, err := session.NewSession(&aws.Config{
-			Region: aws.String("us-west-2")},
+			Region: aws.String(backend.AwsRegion)},
 		)
 
 		if err != nil {

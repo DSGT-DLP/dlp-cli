@@ -17,10 +17,6 @@ var (
     paramName string
 )
 
-var (
-    awsRegion = "us-west-2"
-)
-
 var removeParamCmd = &cobra.Command{
     Use:   "remove-param",
     Short: "Remove a parameter from AWS Parameter Store",
@@ -32,7 +28,7 @@ var removeParamCmd = &cobra.Command{
 
         // Create an AWS session with the specified region
         sess := session.Must(session.NewSession(&aws.Config{
-            Region: aws.String(awsRegion),
+            Region: aws.String(backend.AwsRegion),
         }))
 
         svc := ssm.New(sess)

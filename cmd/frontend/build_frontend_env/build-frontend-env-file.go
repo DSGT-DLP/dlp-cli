@@ -17,13 +17,13 @@ import (
 )
 
 var secretName string // Name of the secret in AWS Secrets Manager.
-var bucketName string // Name of the bucket (Assuming one bucket here).
+var bucketName string // Name of the bucket (Assuming one bucket here). 
 
 var buildFrontendEnvCmd = &cobra.Command{
     Use:   "build-frontend-env-file",
     Short: "Build .env file for frontend/",
     Run: func(cmd *cobra.Command, args []string) {
-        sess, err := session.NewSession(&aws.Config{Region: aws.String("us-west-2")})
+        sess, err := session.NewSession(&aws.Config{Region: aws.String(frontend.AwsRegion)})
         if err != nil {
             log.Fatal("Error creating AWS session: ", err)
         }

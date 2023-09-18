@@ -19,10 +19,6 @@ var (
     paramType  string
 )
 
-var (
-    awsRegion = "us-west-2"
-)
-
 var validParamTypes = map[string]bool{
     "String":       true,
     "StringList":   true,
@@ -45,7 +41,7 @@ var addParamCmd = &cobra.Command{
 
         // Create an AWS session with the specified region
         sess := session.Must(session.NewSession(&aws.Config{
-            Region: aws.String(awsRegion),
+            Region: aws.String(backend.AwsRegion),
         }))
 
         svc := ssm.New(sess)

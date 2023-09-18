@@ -26,7 +26,7 @@ var getSecretCmd = &cobra.Command{
 		}
 
 		sess, err := session.NewSession(&aws.Config{
-			Region: aws.String("us-west-2")},
+			Region: aws.String(backend.AwsRegion)},
 		)
 		if err != nil {
 			fmt.Println("Error creating AWS session:", err)

@@ -23,7 +23,7 @@ var buildTrainingEnvCmd = &cobra.Command{
     Use:   "build-training-env-file",
     Short: "Build .env file for training/",
     Run: func(cmd *cobra.Command, args []string) {
-        sess, err := session.NewSession(&aws.Config{Region: aws.String("us-west-2")})
+        sess, err := session.NewSession(&aws.Config{Region: aws.String(backend.AwsRegion)})
         if err != nil {
             log.Fatal("Error creating AWS session: ", err)
         }
