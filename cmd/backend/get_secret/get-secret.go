@@ -6,6 +6,7 @@ dlp-cli backend get-secret --name "YourSecretName"
 
 import (
 	"fmt"
+	"strings"
 
 	"github.com/DSGT-DLP/Deep-Learning-Playground/cli/cmd/backend"
 	"github.com/aws/aws-sdk-go/aws"
@@ -40,10 +41,17 @@ var getSecretCmd = &cobra.Command{
 		}
 
 		result, err := smClient.GetSecretValue(input)
-		if err != nil {
-			fmt.Println("Error retrieving secret:", err)
-			return
-		}
+if err != nil {
+    // Check if the error is due to the secret not existing or a possible typo.
+    if strings.Contains(err.Error(), "secret not found") || strings.Contains(err.Error(), "secret name typo") {
+        fmt.Println("Error: The secret could not be retrieved. It may not exist or there could be a typo in the secret name.")
+    } else {
+        // Handle other error cases.
+        fmt.Println("Error retrieving secret:", err)
+    }
+    return
+}
+
 
 		fmt.Printf("Secret [%s] successfully received: %s\n", secretName, *result.SecretString) //this validates that the secret was retrieved
 	},
