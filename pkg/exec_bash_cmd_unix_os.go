@@ -18,7 +18,7 @@ import (
 
 func ExecBashCmd(runtime_os string, dir string, name string, arg ...string) string {
 	if runtime_os == "windows" {
-		execBashCmdAny(dir, name, arg...)
+		return execBashCmdAny(dir, name, arg...)
 	}
 	// Code below found in pty examples: https://github.com/creack/pty
 	bash_cmd := exec.Command(name, arg...)
