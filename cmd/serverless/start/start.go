@@ -5,7 +5,6 @@ package serverless
 
 import (
 	"github.com/DSGT-DLP/Deep-Learning-Playground/cli/cmd/serverless"
-	"github.com/DSGT-DLP/Deep-Learning-Playground/cli/pkg"
 	"github.com/spf13/cobra"
 )
 
@@ -16,7 +15,7 @@ var StartCmd = &cobra.Command{
 	Long:  `Starts SST's Live Lambda Development environment in the terminal`,
 	Args:  cobra.ExactArgs(0),
 	Run: func(cmd *cobra.Command, args []string) {
-		pkg.ExecBashCmd(serverless.ServerlessDir, "yarn", "sst", "dev")
+		serverless.ExecBashCmd("yarn", "sst", "dev")
 	},
 }
 

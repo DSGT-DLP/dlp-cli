@@ -7,7 +7,6 @@ import (
 	"fmt"
 
 	"github.com/DSGT-DLP/Deep-Learning-Playground/cli/cmd/frontend"
-	"github.com/DSGT-DLP/Deep-Learning-Playground/cli/pkg"
 	"github.com/spf13/cobra"
 )
 
@@ -18,7 +17,7 @@ var StartCmd = &cobra.Command{
 	Long:  `Starts an instance of the nextjs frontend in the terminal`,
 	Args:  cobra.ExactArgs(0),
 	Run: func(cmd *cobra.Command, args []string) {
-		pkg.ExecBashCmd(frontend.FrontendDir, "yarn", "next", "dev", "-p", fmt.Sprintf("%v", cmd.Flag("port").Value))
+		frontend.ExecBashCmd("yarn", "next", "dev", "-p", fmt.Sprintf("%v", cmd.Flag("port").Value))
 	},
 }
 

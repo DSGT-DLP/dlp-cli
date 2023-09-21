@@ -21,4 +21,9 @@ var BackendCmd = &cobra.Command{
 
 func init() {
 	cmd.RootCmd.AddCommand(BackendCmd)
+	BackendCmd.PersistentFlags().String("env-name", "dlp", "Name of the conda environment you want to create")
+}
+
+func ExecBashCmd(name string, args ...string) string {
+	return cmd.ExecBashCmd(BackendDir, name, args...)
 }

@@ -21,3 +21,7 @@ var ServerlessCmd = &cobra.Command{
 func init() {
 	cmd.RootCmd.AddCommand(ServerlessCmd)
 }
+
+func ExecBashCmd(name string, args ...string) string {
+	return cmd.ExecBashCmd(ServerlessDir, name, args...)
+}

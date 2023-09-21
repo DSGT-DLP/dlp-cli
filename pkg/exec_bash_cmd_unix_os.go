@@ -3,9 +3,8 @@
 package pkg
 
 import (
-	"fmt"
+	"bytes"
 	"io"
-	"log"
 	"os"
 	"os/exec"
 	"os/signal"
@@ -13,14 +12,18 @@ import (
 	"syscall"
 
 	"github.com/creack/pty"
+	"github.com/pterm/pterm"
 	"golang.org/x/term"
 )
 
-func ExecBashCmd(dir string, name string, arg ...string) {
+func ExecBashCmd(runtime_os string, dir string, name string, arg ...string) string {
+	if runtime_os == "windows" {
+		return execBashCmdAny(dir, name, arg...)
+	}
 	// Code below found in pty examples: https://github.com/creack/pty
 	bash_cmd := exec.Command(name, arg...)
 	bash_cmd.Dir = dir
-	fmt.Println(strings.Join(bash_cmd.Args, " "))
+	pterm.DefaultHeader.WithFullWidth().Println(strings.Join(bash_cmd.Args, " "))
 	ptmx, err := pty.Start(bash_cmd)
 	if err != nil {
 		panic(err)
@@ -34,7 +37,7 @@ func ExecBashCmd(dir string, name string, arg ...string) {
 	go func() {
 		for range ch {
 			if err := pty.InheritSize(os.Stdin, ptmx); err != nil {
-				log.Printf("error resizing pty: %s", err)
+				pterm.Error.Printf("error resizing pty: %s", err)
 			}
 		}
 	}()
@@ -52,5 +55,10 @@ func ExecBashCmd(dir string, name string, arg ...string) {
 	// Copy stdin to the pty and the pty to stdout.
 	// NOTE: The goroutine will keep reading until the next keystroke before returning.
 	go func() { io.Copy(ptmx, os.Stdin) }()
-	io.Copy(os.Stdout, ptmx)
+	var buffer bytes.Buffer
+	_, err = io.Copy(io.MultiWriter(os.Stdout, &buffer), ptmx)
+	if err != nil {
+		panic(err)
+	}
+	return buffer.String()
 }

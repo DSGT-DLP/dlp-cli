@@ -5,7 +5,6 @@ package remove
 
 import (
 	"github.com/DSGT-DLP/Deep-Learning-Playground/cli/cmd/serverless/core"
-	"github.com/DSGT-DLP/Deep-Learning-Playground/cli/pkg"
 	"github.com/spf13/cobra"
 )
 
@@ -20,7 +19,7 @@ var RemoveCmd = &cobra.Command{
 		if cmd.Flag("dev").Value.String() == "true" {
 			bash_args = append(bash_args, "--dev")
 		}
-		pkg.ExecBashCmd(core.CoreDir, "yarn", bash_args...)
+		core.ExecBashCmd("yarn", bash_args...)
 	},
 }
 

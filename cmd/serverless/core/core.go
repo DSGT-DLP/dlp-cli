@@ -4,6 +4,7 @@ Copyright © 2023 NAME HERE <EMAIL ADDRESS>
 package core
 
 import (
+	"github.com/DSGT-DLP/Deep-Learning-Playground/cli/cmd"
 	"github.com/DSGT-DLP/Deep-Learning-Playground/cli/cmd/serverless"
 	"github.com/spf13/cobra"
 )
@@ -20,4 +21,8 @@ var CoreCmd = &cobra.Command{
 
 func init() {
 	serverless.ServerlessCmd.AddCommand(CoreCmd)
+}
+
+func ExecBashCmd(name string, args ...string) string {
+	return cmd.ExecBashCmd(CoreDir, name, args...)
 }

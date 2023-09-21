@@ -6,7 +6,9 @@ package cmd
 import (
 	"os"
 	"path/filepath"
+	"runtime"
 
+	"github.com/DSGT-DLP/Deep-Learning-Playground/cli/pkg"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 )
@@ -40,5 +42,15 @@ func Execute() {
 
 func init() {
 	RootCmd.PersistentFlags().String("project-dir", ".", "The directory of the project relative to the cli directory (cli-config.yaml project-dir overrides default value)")
+	RootCmd.PersistentFlags().BoolP("no-unix", "w", false, "Execute bash commands as if on Windows (use if your os doesn't support Unix PTYs)")
+	RootCmd.PersistentFlags().BoolP("reference", "r", false, "Displays the equivalent shell commands for manual usage")
 	viper.BindPFlag("project-dir", RootCmd.PersistentFlags().Lookup("project-dir"))
+}
+
+func ExecBashCmd(dir string, name string, args ...string) string {
+	runtime_os := runtime.GOOS
+	if RootCmd.Flag("no-unix").Value.String() == "true" {
+		runtime_os = "windows"
+	}
+	return pkg.ExecBashCmd(runtime_os, dir, name, args...)
 }
