@@ -14,7 +14,6 @@ import (
     "github.com/aws/aws-sdk-go/service/secretsmanager"
     "github.com/spf13/cobra"
     "github.com/DSGT-DLP/Deep-Learning-Playground/cli/cmd/frontend" // For frontend/
-
 )
 
 var secretName string // Name of the secret in AWS Secrets Manager.
@@ -39,9 +38,6 @@ var buildFrontendEnvCmd = &cobra.Command{
 
         // Adding secrets to the .env file
         writeToEnvFile(secretName, *secretValue.SecretString, path)
-
-        // ** need to add project constants to .env file **
-        writeToEnvFile("PROJECT_CONSTANT", "YourConstantValue", path)
 
         // ** need to add bucket name to .env file **
         writeToEnvFile("BUCKET_NAME", bucketName, path)
