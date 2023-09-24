@@ -1,7 +1,8 @@
 package build_frontend_env
 
 /*
-$ dlp-cli build-frontend-env-file --secret "YourSecretName" --bucket "YourBucketName"
+Sample Command:
+$ dlp-cli build-frontend-env-file --secret "YourSecretName"
 */
 
 import (
@@ -14,8 +15,7 @@ import (
     "github.com/DSGT-DLP/Deep-Learning-Playground/cli/utils" // For utils/
 )
 
-var secretName string // Name of the secret in AWS Secrets Manager.
-var bucketName string // Name of the bucket (Assuming one bucket here). 
+var secretName string // Name of the secret in AWS Secrets Manager
 
 var buildFrontendEnvCmd = &cobra.Command{
     Use:   "build-frontend-env-file",
@@ -37,13 +37,12 @@ var buildFrontendEnvCmd = &cobra.Command{
         // Adding secrets to the .env file
         utils.WriteToEnvFile(secretName, *secretValue.SecretString, path)
 
-        // ** need to add bucket name to .env file **
-        utils.WriteToEnvFile("BUCKET_NAME", bucketName, path)
+        // Hardcoding bucket name as a constant
+        utils.WriteToEnvFile("BUCKET_NAME", utils.DlpUploadBucket, path)
     },
 }
 
 func init() {
     buildFrontendEnvCmd.Flags().StringVar(&secretName, "secret", "", "Name of the secret in AWS Secrets Manager")
-    buildFrontendEnvCmd.Flags().StringVar(&bucketName, "bucket", "", "Name of the bucket")
     frontend.FrontendCmd.AddCommand(buildFrontendEnvCmd)
 }

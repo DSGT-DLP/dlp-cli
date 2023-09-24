@@ -1,18 +1,18 @@
 package build_serverless_env
 
 /*
-$ dlp-cli build-serverless-env-file --sst "YourSSTVariables" --dev-endpoints "YourDevEndpoints" --bucket "YourServerlessBucketName"
+Sample Command:
+$ dlp-cli build-serverless-env-file --sst "YourSSTVariables" --dev-endpoints "YourDevEndpoints"
 */
 
 import (
-	"github.com/DSGT-DLP/Deep-Learning-Playground/cli/cmd/serverless" // For frontend/
+	"github.com/DSGT-DLP/Deep-Learning-Playground/cli/cmd/serverless" // For serverless/
 	"github.com/spf13/cobra"
 	"github.com/DSGT-DLP/Deep-Learning-Playground/cli/utils" // For utils/
 )
 
-var sstVariables string         // Variables related to sst
-var devEndpoints string         // Development endpoints
-var bucketNameServerless string // Name of the bucket for serverless
+var sstVariables string // Variables related to sst
+var devEndpoints string // Development endpoints
 
 var buildServerlessEnvCmd = &cobra.Command{
 	Use:   "build-serverless-env-file",
@@ -26,14 +26,13 @@ var buildServerlessEnvCmd = &cobra.Command{
 		// Adding dev endpoints to the .env file
 		utils.WriteToEnvFile("DEV_ENDPOINTS", devEndpoints, path)
 
-		// Adding bucket name to the .env file
-		utils.WriteToEnvFile("BUCKET_NAME", bucketNameServerless, path)
+		// Hardcoding bucket name as a constant
+		utils.WriteToEnvFile("BUCKET_NAME", utils.DlpUploadBucket, path)
 	},
 }
 
 func init() {
 	buildServerlessEnvCmd.Flags().StringVar(&sstVariables, "sst", "", "Variables related to serverless stack (sst)")
 	buildServerlessEnvCmd.Flags().StringVar(&devEndpoints, "dev-endpoints", "", "Development endpoints for serverless")
-	buildServerlessEnvCmd.Flags().StringVar(&bucketNameServerless, "bucket", "", "Name of the serverless bucket")
 	serverless.ServerlessCmd.AddCommand(buildServerlessEnvCmd)
 }

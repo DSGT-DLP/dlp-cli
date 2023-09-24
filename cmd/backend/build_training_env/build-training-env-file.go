@@ -1,7 +1,8 @@
 package build_training_env
 
 /*
-$ dlp-cli build-training-env-file --secret "YourTrainingSecretName" --bucket "YourTrainingBucketName"
+Sample Command:
+$ dlp-cli build-training-env-file --secret "YourTrainingSecretName"
 */
 
 import (
@@ -15,7 +16,6 @@ import (
 )
 
 var secretNameTraining string // Name of the secret in AWS Secrets Manager
-var bucketNameTraining string // Name of the bucket for training
 
 var buildTrainingEnvCmd = &cobra.Command{
     Use:   "build-training-env-file",
@@ -37,13 +37,12 @@ var buildTrainingEnvCmd = &cobra.Command{
         // Adding secrets to the .env file
         utils.WriteToEnvFile(secretNameTraining, *secretValue.SecretString, path)
 
-        // Adding bucket name to the .env file
-        utils.WriteToEnvFile("BUCKET_NAME", bucketNameTraining, path)
+        // Hardcoding bucket name as a constant
+        utils.WriteToEnvFile("BUCKET_NAME", utils.DlpUploadBucket, path)
     },
 }
 
 func init() {
     buildTrainingEnvCmd.Flags().StringVar(&secretNameTraining, "secret", "", "Name of the secret in AWS Secrets Manager for training")
-    buildTrainingEnvCmd.Flags().StringVar(&bucketNameTraining, "bucket", "", "Name of the training bucket")
     backend.BackendCmd.AddCommand(buildTrainingEnvCmd)
 }
