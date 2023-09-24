@@ -6,7 +6,7 @@ import (
     "strings"
 )
 
-func writeToEnvFile(paramName string, paramValue string, path string) error {
+func WriteToEnvFile(paramName string, paramValue string, path string) error {
     if err := os.MkdirAll(path, os.ModePerm); err != nil {
         return fmt.Errorf("error creating directory: %v", err)
     }

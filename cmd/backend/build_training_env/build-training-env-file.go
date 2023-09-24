@@ -5,15 +5,13 @@ $ dlp-cli build-training-env-file --secret "YourTrainingSecretName" --bucket "Yo
 */
 
 import (
-    "os"
-    "strings"
-    "fmt"
     "log"
     "github.com/aws/aws-sdk-go/aws"
     "github.com/aws/aws-sdk-go/aws/session"
     "github.com/aws/aws-sdk-go/service/secretsmanager"
     "github.com/spf13/cobra"
     "github.com/DSGT-DLP/Deep-Learning-Playground/cli/cmd/backend"
+    "github.com/DSGT-DLP/Deep-Learning-Playground/cli/utils" // For utils/
 )
 
 var secretNameTraining string // Name of the secret in AWS Secrets Manager
@@ -37,38 +35,11 @@ var buildTrainingEnvCmd = &cobra.Command{
         path := "./training"
 
         // Adding secrets to the .env file
-        writeToEnvFile(secretNameTraining, *secretValue.SecretString, path)
+        utils.WriteToEnvFile(secretNameTraining, *secretValue.SecretString, path)
 
         // Adding bucket name to the .env file
-        writeToEnvFile("BUCKET_NAME", bucketNameTraining, path)
+        utils.WriteToEnvFile("BUCKET_NAME", bucketNameTraining, path)
     },
-}
-
-func writeToEnvFile(paramName string, paramValue string, path string) error {
-    if err := os.MkdirAll(path, os.ModePerm); err != nil {
-        return fmt.Errorf("error creating directory: %v", err)
-    }
-
-    content := strings.ToUpper(paramName) + "=" + paramValue
-    f, err := os.OpenFile(path+"/.env", os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
-    if err != nil {
-        return fmt.Errorf("error creating .env file: %v", err)
-    }
-    defer f.Close()
-
-    fmt.Println("Writing to .env file", path)
-    n, err := f.WriteString(content + "\n")
-    if err != nil {
-        return fmt.Errorf("error writing to .env file: %v", err)
-    }
-    fmt.Printf("Wrote %d bytes to .env file\n", n)
-
-    err = f.Sync()
-    if err != nil {
-        return fmt.Errorf("error syncing .env file: %v", err)
-    }
-
-    return nil
 }
 
 func init() {
