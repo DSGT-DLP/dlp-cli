@@ -9,6 +9,7 @@ import (
 )
 
 const FrontendDir string = "./frontend"
+const AwsRegion = "us-west-2"
 
 // FrontendCmd represents the frontend command
 var FrontendCmd = &cobra.Command{

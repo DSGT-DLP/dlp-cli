@@ -27,6 +27,14 @@ import (
 	_ "github.com/DSGT-DLP/Deep-Learning-Playground/cli/cmd/serverless/functions/remove"
 	_ "github.com/DSGT-DLP/Deep-Learning-Playground/cli/cmd/serverless/install"
 	_ "github.com/DSGT-DLP/Deep-Learning-Playground/cli/cmd/serverless/start"
+	_ "github.com/DSGT-DLP/Deep-Learning-Playground/cli/cmd/backend/pull_config"
+	_ "github.com/DSGT-DLP/Deep-Learning-Playground/cli/cmd/backend/add_param"
+	_ "github.com/DSGT-DLP/Deep-Learning-Playground/cli/cmd/backend/get_secret"
+	_ "github.com/DSGT-DLP/Deep-Learning-Playground/cli/cmd/backend/update_param"
+	_ "github.com/DSGT-DLP/Deep-Learning-Playground/cli/cmd/backend/remove_param"
+	_ "github.com/DSGT-DLP/Deep-Learning-Playground/cli/cmd/frontend/build_frontend_env"
+	_ "github.com/DSGT-DLP/Deep-Learning-Playground/cli/cmd/backend/build_training_env"
+	_ "github.com/DSGT-DLP/Deep-Learning-Playground/cli/cmd/serverless/build_serverless_env"
 )
 
 func main() {
