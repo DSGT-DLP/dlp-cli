@@ -46,6 +46,7 @@ changelog:
 
 brews:
   - name: dlp-cli
+    url_template: "https://github.com/DSGT_DLP/dlp-cli/releases/download/{{ .Tag }}/{{ .ArtifactName }}"
     repository:
       owner: DSGT-DLP
       name: homebrew-dlp-cli
@@ -57,6 +58,7 @@ brews:
 
 scoops:
   - name: dlp-cli
+    url_template: "https://github.com/DSGT_DLP/dlp-cli/releases/download/{{ .Tag }}/{{ .ArtifactName }}"
     repository:
       owner: DSGT-DLP
       name: scoop-dlp-cli
