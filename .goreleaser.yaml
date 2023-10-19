@@ -58,6 +58,8 @@ brews:
 scoops:
   - name: dlp-cli
     folder: bucket
+    homepage: https://github.com/DSGT-DLP/dlp-cli
+    license: MIT
     repository:
       owner: DSGT-DLP
       name: scoop-dlp-cli
