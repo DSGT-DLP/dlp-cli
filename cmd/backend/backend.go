@@ -9,6 +9,7 @@ import (
 )
 
 const BackendDir string = "./training"
+const AwsRegion = "us-west-2"
 
 // BackendCmd represents the backend command
 var BackendCmd = &cobra.Command{

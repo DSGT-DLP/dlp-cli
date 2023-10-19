@@ -8,6 +8,8 @@ require (
 )
 
 require (
+	github.com/aws/aws-sdk-go v1.45.3 // indirect
+	github.com/jmespath/go-jmespath v0.4.0 // indirect
 	atomicgo.dev/cursor v0.2.0 // indirect
 	atomicgo.dev/keyboard v0.2.9 // indirect
 	atomicgo.dev/schedule v0.1.0 // indirect
