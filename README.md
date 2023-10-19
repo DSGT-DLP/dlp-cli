@@ -36,3 +36,9 @@ Make sure to add package paths of all files as imports in main.go
 
 ![input-output-error](https://github.com/DSGT-DLP/dlp-cli/assets/54150946/b9acfcca-4646-4086-9aea-e4f262520d87)
 If you are on WSL, append the `-w` flag to tell the dlp-cli to run bash cmds without pseudoterminals, which are handled differently on windows and WSL. The way that the dlp-cli uses pseudoterminals currently only work in unix environments.
+
+### Path does not exist: dlp-cli/manifests/d/DSGT-DLP/...
+Make sure to pull the latest changes from the `dlp-cli` submodule. This can be done by `cd dlp-cli` (from the project directory) and running `git pull origin main`.
+
+### Error starting cmd: "mamba" executable file not found in %PATH%
+Windows: Rerun the mamba installer and check the box that says that it will add mamba to PATH.
