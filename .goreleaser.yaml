@@ -57,6 +57,7 @@ brews:
 
 scoops:
   - name: dlp-cli
+    folder: bucket
     repository:
       owner: DSGT-DLP
       name: scoop-dlp-cli
