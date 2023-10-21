@@ -55,21 +55,14 @@ brews:
       zsh_completion.install "completions/dlp-cli.zsh" => "_dlp-cli"
       fish_completion.install "completions/dlp-cli.fish"
 
-winget:
+scoops:
   - name: dlp-cli
-    publisher: DSGT-DLP
-    short_description: "CLI for Deep Learning Playground"
-    license: "mit"
+    folder: bucket
+    homepage: https://github.com/DSGT-DLP/dlp-cli
+    license: MIT
     repository:
       owner: DSGT-DLP
-      name: dlp-cli
-      branch: "winget-manifest--{{.Version}}"
-      pull_request:
-        enabled: true
-        base:
-          owner: DSGT-DLP
-          name: dlp-cli
-          branch: main
+      name: scoop-dlp-cli
 # The lines beneath this are called `modelines`. See `:help modeline`
 # Feel free to remove those if you don't want/use them.
 # yaml-language-server: $schema=https://goreleaser.com/static/schema.json
