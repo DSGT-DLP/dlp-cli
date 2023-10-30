@@ -17,9 +17,14 @@ var AddCmd = &cobra.Command{
 	Run: func(cmd *cobra.Command, args []string) {
 		bash_args := []string{"add", args[0]}
 		if cmd.Flag("dev").Value.String() == "true" {
-			bash_args = append(bash_args, "--dev")
+			bash_args = append(bash_args, "-D")
 		}
-		functions.ExecBashCmd("yarn", bash_args...)
+		if cmd.Flag("yarn").Value.String() == "true" {
+			functions.ExecBashCmd("yarn", bash_args...)
+		} else {
+			functions.ExecBashCmd("pnpm", bash_args...)
+		}
+
 	},
 }
 
