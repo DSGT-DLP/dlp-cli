@@ -19,7 +19,11 @@ var InstallCmd = &cobra.Command{
 		if cmd.Flag("force").Value.String() == "true" {
 			bash_args = append(bash_args, "--force")
 		}
-		serverless.ExecBashCmd("yarn", bash_args...)
+		if cmd.Flag("yarn").Value.String() == "true" {
+			serverless.ExecBashCmd("yarn", bash_args...)
+		} else {
+			serverless.ExecBashCmd("pnpm", bash_args...)
+		}
 	},
 }
 

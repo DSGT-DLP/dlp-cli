@@ -20,6 +20,7 @@ var ServerlessCmd = &cobra.Command{
 
 func init() {
 	cmd.RootCmd.AddCommand(ServerlessCmd)
+	cmd.RootCmd.PersistentFlags().Bool("yarn", false, "Uses yarn instead of pnpm")
 }
 
 func ExecBashCmd(name string, args ...string) string {

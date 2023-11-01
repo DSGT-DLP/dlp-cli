@@ -15,7 +15,11 @@ var StartCmd = &cobra.Command{
 	Long:  `Starts SST's Live Lambda Development environment in the terminal`,
 	Args:  cobra.ExactArgs(0),
 	Run: func(cmd *cobra.Command, args []string) {
-		serverless.ExecBashCmd("yarn", "sst", "dev")
+		if cmd.Flag("yarn").Value.String() == "true" {
+			serverless.ExecBashCmd("yarn", "sst", "dev")
+		} else {
+			serverless.ExecBashCmd("pnpm", "sst", "dev")
+		}
 	},
 }
 
