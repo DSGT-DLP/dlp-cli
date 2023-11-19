@@ -1,47 +1,60 @@
 package add
 
 import (
-    "bytes"
-    "testing"
-
-    "github.com/stretchr/testify/assert"
-    "github.com/spf13/cobra"
+	"testing"
+    "fmt"
+    "os"
+	"github.com/spf13/cobra"
+	"github.com/stretchr/testify/assert"
+    "os/exec"
+	"strings"
 )
 
-type testingTAdapter struct {
-    t *testing.T
-}
-
-func (ta *testingTAdapter) Errorf(format string, args ...interface{}) {
-    ta.t.Errorf(format, args...)
-}
-
 func TestAddCmd(t *testing.T) {
-    // Create a buffer to capture the command's output
-    var outputBuffer bytes.Buffer
+	assert := assert.New(t)
 
-    // Create a Cobra command to represent AddCmd
-    cmd := &cobra.Command{}
+	// Check if AddCmd is *cobra.Command type
+	assert.IsType(&cobra.Command{}, AddCmd)
 
-    // Set the output of the AddCmd to our buffer
-    cmd.SetOut(&outputBuffer)
+	// Check the command use
+	assert.Equal("add {package}", AddCmd.Use)
 
-    // Create a TestingT adapter
-    tt := &testingTAdapter{t}
+	// Check the command short description
+	assert.Equal("Add package to conda environment, defaults to installation via poetry unless otherwise specified", AddCmd.Short)
+}
 
-    // Create a new command for testing with the same flags
-    testCmd := &cobra.Command{}
-    testCmd.Flags().Bool("mamba", true, "Add package via mamba (used mainly if cross-platform compatibility is needed)")
-    testCmd.Flags().String("channel", "conda-forge", "Specify conda channel to install from (only used if --mamba flag is set)")
-    testCmd.Flags().String("env-name", "dlp", "Name of the environment")
-    testCmd.Flags().Bool("dev", true, "Add package as dev dependency")
 
-    //testCmd.setArgs("pip-install-test")
-    // Run the AddCmd with testCmd as the parent command
-    AddCmd.Run(testCmd, []string{"pip-install-test"})
+func TestAddCmdIntegration(t *testing.T) {
+	assert := assert.New(t)
+    fmt.Println(os.Getenv("PATH"))
+	// Create a new conda environment
+	_, err := exec.Command("mamba", "create", "--name", "temp_env", "-y").Output()
+	assert.NoError(err)
 
-    // Check if the expected message is present in the output
-    output := outputBuffer.String()
-    expectedMessage := "IMPORTANT"
-    assert.Contains(tt, output, expectedMessage)
+	// Create a new command for testing
+	testCmd := &cobra.Command{
+		Use:   "add {package}",
+		Short: "Add package to conda environment, defaults to installation via poetry unless otherwise specified",
+		Long:  `Add package to conda environment from /training, defaults to installation via poetry unless otherwise specified`,
+		Args:  cobra.ExactArgs(1),
+		Run:   AddCmd.Run,  // Use the same Run function as AddCmd
+	}
+
+	// Set the flags on testCmd
+	testCmd.Flags().Bool("mamba", true, "")
+	testCmd.Flags().String("channel", "conda-forge", "")
+	testCmd.Flags().String("env-name", "temp_env", "")
+	testCmd.Flags().Bool("dev", false, "")
+
+	// Run the testCmd with the arguments
+	testCmd.Run(testCmd, []string{"numpy"})
+
+	// Check if the package was correctly added
+	out, err := exec.Command("mamba", "list", "-n", "temp_env", "numpy").Output()
+	assert.NoError(err)
+	assert.True(strings.Contains(string(out), "numpy"))
+
+	// Delete the temporary conda environment
+	_, err = exec.Command("mamba", "env", "remove", "-n", "temp_env", "-y").Output()
+	assert.NoError(err)
 }
