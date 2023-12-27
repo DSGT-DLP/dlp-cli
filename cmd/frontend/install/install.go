@@ -19,11 +19,8 @@ var InstallCmd = &cobra.Command{
 		if cmd.Flag("force").Value.String() == "true" {
 			bash_args = append(bash_args, "--force")
 		}
-		if cmd.Flag("yarn").Value.String() == "true" {
-			frontend.ExecBashCmd("yarn", bash_args...)
-		} else {
-			frontend.ExecBashCmd("pnpm", bash_args...)
-		}
+		frontend.ExecBashCmd("npm" , "install" , "-g" , "pnpm")
+		frontend.ExecBashCmd("pnpm", bash_args...)
 	},
 }
 
