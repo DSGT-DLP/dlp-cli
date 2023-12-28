@@ -21,7 +21,6 @@ var FrontendCmd = &cobra.Command{
 
 func init() {
 	cmd.RootCmd.AddCommand(FrontendCmd)
-	FrontendCmd.PersistentFlags().Bool("yarn", false, "Uses yarn instead of pnpm")
 }
 
 func ExecBashCmd(name string, args ...string) string {

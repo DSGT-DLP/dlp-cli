@@ -24,7 +24,7 @@ Run `dlp-cli` in DLP's project directory in the terminal
 
 Step 1: If you don't have the `dlp-cli` submodule, run `git submodule init dlp-cli` in the project directory. Then run `git submodule update`. If it says that you are in a detached HEAD state, cd to the dlp-cli submodule directory and `git checkout main`.
 
-Step 2: Run cli in debug mode with `go run main.go`
+Step 2: Run cli in debug mode with `go run main.go`. For example, if you wanted to run the frontend install command in debug mode, run `go run main.go frontend install`.
 
 Step 3: Make sure to add package paths of all files as imports in main.go
 

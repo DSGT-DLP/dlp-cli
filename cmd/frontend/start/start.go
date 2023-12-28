@@ -17,12 +17,7 @@ var StartCmd = &cobra.Command{
 	Long:  `Starts an instance of the nextjs frontend in the terminal`,
 	Args:  cobra.ExactArgs(0),
 	Run: func(cmd *cobra.Command, args []string) {
-		if cmd.Flag("yarn").Value.String() == "true" {
-			frontend.ExecBashCmd("yarn", "start", "-p", fmt.Sprintf("%v", cmd.Flag("port").Value))
-		} else {
-			frontend.ExecBashCmd("pnpm", "start", "-p", fmt.Sprintf("%v", cmd.Flag("port").Value))
-		}
-
+		frontend.ExecBashCmd("pnpm", "start", "-p", fmt.Sprintf("%v", cmd.Flag("port").Value))
 	},
 }
 
