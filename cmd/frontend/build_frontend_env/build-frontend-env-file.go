@@ -13,7 +13,7 @@ import (
     "github.com/spf13/cobra"
     "github.com/DSGT-DLP/Deep-Learning-Playground/cli/cmd/frontend" // For frontend/
     "github.com/DSGT-DLP/Deep-Learning-Playground/cli/utils" // For utils/
-    "encoding/json" // to unmarshal json
+    "encoding/json"
 )
 
 var secretName string // Name of the secret in AWS Secrets Manager
@@ -37,9 +37,9 @@ var buildFrontendEnvCmd = &cobra.Command{
         
         // AWS secrets are parsed from key:value pairs in secrets manager for populating the .env file
 
-        var secretsMap map[string]string // declares a variable of type Map with key:value as string:string
+        var secretsMap map[string]string 
 
-        if err := json.Unmarshal([]byte(*secretValue.SecretString), &secretsMap); err != nil { // stores unmarshalled json into secretsMap
+        if err := json.Unmarshal([]byte(*secretValue.SecretString), &secretsMap); err != nil {
             log.Fatal("error unmarshalling json: ", err)
         } 
         
