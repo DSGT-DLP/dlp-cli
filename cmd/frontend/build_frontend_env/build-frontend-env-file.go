@@ -13,6 +13,7 @@ import (
     "github.com/spf13/cobra"
     "github.com/DSGT-DLP/Deep-Learning-Playground/cli/cmd/frontend" // For frontend/
     "github.com/DSGT-DLP/Deep-Learning-Playground/cli/utils" // For utils/
+    "encoding/json"
 )
 
 var secretName string // Name of the secret in AWS Secrets Manager
@@ -33,9 +34,18 @@ var buildFrontendEnvCmd = &cobra.Command{
         }
 
         path := "./frontend"
+        
+        // AWS secrets are parsed from key:value pairs in secrets manager for populating the .env file
 
-        // Adding secrets to the .env file
-        utils.WriteToEnvFile(secretName, *secretValue.SecretString, path)
+        var secretsMap map[string]string 
+
+        if err := json.Unmarshal([]byte(*secretValue.SecretString), &secretsMap); err != nil {
+            log.Fatal("error unmarshalling json: ", err)
+        } 
+        
+        for key,value := range secretsMap {
+            utils.WriteToEnvFile(key, value, path)
+        }
 
         // Hardcoding bucket name as a constant
         utils.WriteToEnvFile("BUCKET_NAME", utils.DlpUploadBucket, path)
