@@ -25,4 +25,5 @@ var StartCmd = &cobra.Command{
 func init() {
 	backend.BackendCmd.AddCommand(StartCmd)
 	StartCmd.PersistentFlags().IntP("port", "p", 8000, "A port to run the backend on")
+	StartCmd.PersistentFlags().StringP("env-name", "e", "dlp", "The name of the mamba environment")
 }
