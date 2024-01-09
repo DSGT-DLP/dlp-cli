@@ -16,7 +16,8 @@ var UidCmd = &cobra.Command{
 	Long:  `gets a user's uid by email from the backend`,
 	Args:  cobra.ExactArgs(1),
 	Run: func(cmd *cobra.Command, args []string) {
-		backend.ExecBashCmd("poetry", "run", "python", "cli.py", "get-uid", args[0])
+		env_name := cmd.Flag("env-name").Value.String()
+		backend.ExecBashCmd("mamba", "run", "-n", env_name, "poetry", "run", "python", "cli.py", "get-uid", args[0])
 	},
 }
 
