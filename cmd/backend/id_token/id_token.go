@@ -23,5 +23,4 @@ var IdTokenCmd = &cobra.Command{
 
 func init() {
 	backend.BackendCmd.AddCommand(IdTokenCmd)
-	IdTokenCmd.PersistentFlags().StringP("env-name", "e", "dlp", "The name of the mamba environment")
 }
